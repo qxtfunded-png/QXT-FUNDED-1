@@ -33,9 +33,10 @@ export const PLANS: Plan[] = [
 
 // EDIT WALLET ADDRESSES HERE
 export const WALLETS = {
-  usdt_bep20: "0x6a153ab88caadd1a1a4305977c7a9e0a5d3fc8ad",
-  usdt_trc20: "TZDeaPnUcBRPvkpDQmkBEHeRd6D1aX4Gve",
-  usdt_erc20: "0x6a153ab88caadd1a1a4305977c7a9e0a5d3fc8ad"
+  usdt_bep20: "0x09192e228e2a9fc37be759b79b652989f912363d",
+  usdt_trc20: "TUTYn3YM5PgBiax8DauKSku7csuRFnAczv",
+  usdt_erc20: "0x09192e228e2a9fc37be759b79b652989f912363d",
+  btc: "33iPbGRwsFEndmvAWk3G927yegGsgLTWNZ"
 };
 
 export const BROKERS = [
@@ -49,7 +50,8 @@ export const PAYMENT_LOGOS = {
   usdt: 'https://cryptologos.cc/logos/tether-usdt-logo.png?v=029',
   bep20: 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png?v=029',
   trc20: 'https://cryptologos.cc/logos/tron-trx-logo.png?v=029',
-  erc20: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029'
+  erc20: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029',
+  btc: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png?v=029'
 };
 
 export const SUPPORT_EMAIL = "qxtfunded@gmail.com";

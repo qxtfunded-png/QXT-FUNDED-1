@@ -31,7 +31,7 @@ const Checkout = () => {
     plan: Plan | null;
     broker: string | null;
     details: { name: string; email: string; country: string; address: string; notes: string };
-    paymentMethod: 'usdt_bep20' | 'usdt_trc20' | 'usdt_erc20' | null;
+    paymentMethod: 'usdt_bep20' | 'usdt_trc20' | 'usdt_erc20' | 'btc' | null;
     paymentProof: File | null;
   }>({
     type: null,
@@ -71,26 +71,26 @@ const Checkout = () => {
   const filteredPlans = PLANS.filter(p => p.type === selection.type);
 
   return (
-    <div className="pt-24 pb-20 px-4 max-w-5xl mx-auto">
+    <div className="pt-16 pb-12 px-4 max-w-5xl mx-auto">
       {/* Progress Indicator */}
-      <div className="mb-12">
-        <div className="flex items-center justify-between mb-4">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-3">
           {[1, 2, 3, 4, 5, 6, 7].map((s) => (
             <div key={s} className="flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
                 step >= s ? 'bg-emerald-500 text-white' : 'bg-zinc-800 text-gray-500'
               }`}>
-                {step > s ? <Check size={16} /> : s}
+                {step > s ? <Check size={12} /> : s}
               </div>
               {s < 7 && (
-                <div className={`w-4 sm:w-12 h-1 mx-2 rounded-full ${
+                <div className={`w-3 sm:w-10 h-0.5 mx-1 rounded-full ${
                   step > s ? 'bg-emerald-500' : 'bg-zinc-800'
                 }`} />
               )}
             </div>
           ))}
         </div>
-        <h1 className="text-2xl font-bold text-white text-center">
+        <h1 className="text-xl font-bold text-white text-center">
           {step === 1 && t.checkout.step1}
           {step === 2 && t.checkout.step2}
           {step === 3 && t.checkout.step3}
@@ -134,26 +134,26 @@ const Checkout = () => {
                     setSelection({ ...selection, type: type.id as any, plan: null });
                     nextStep();
                   }}
-                  className={`relative p-8 sm:p-10 rounded-[3rem] border text-left transition-all group overflow-hidden ${
+                  className={`relative p-6 sm:p-8 rounded-[2rem] border text-left transition-all group overflow-hidden ${
                     selection.type === type.id 
                       ? `bg-${type.color}-500/10 border-${type.color}-500 shadow-2xl shadow-${type.color}-500/20` 
                       : 'bg-zinc-900/40 border-white/5 hover:border-white/20 backdrop-blur-md'
                   }`}
                 >
-                  <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full blur-3xl opacity-10 transition-all group-hover:opacity-20 bg-${type.color}-500`} />
+                  <div className={`absolute -right-10 -top-10 w-24 h-24 rounded-full blur-3xl opacity-10 transition-all group-hover:opacity-20 bg-${type.color}-500`} />
                   
-                  <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 ${
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${
                     selection.type === type.id 
                       ? `bg-${type.color}-500 text-white shadow-lg shadow-${type.color}-500/30` 
                       : `bg-white/5 text-${type.color}-400`
                   }`}>
-                    {type.icon}
+                    {React.cloneElement(type.icon as React.ReactElement, { size: 28 })}
                   </div>
-                  <h3 className="text-3xl font-black text-white mb-3 tracking-tight">{type.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed font-medium">{type.desc}</p>
+                  <h3 className="text-2xl font-black text-white mb-2 tracking-tight">{type.title}</h3>
+                  <p className="text-gray-400 text-xs leading-relaxed font-medium">{type.desc}</p>
                   
-                  <div className="mt-8 flex items-center text-white font-bold text-sm">
-                    Select Model <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  <div className="mt-6 flex items-center text-white font-bold text-xs">
+                    Select Model <ChevronRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </button>
               ))}
@@ -318,7 +318,8 @@ const Checkout = () => {
                 {[
                   { id: 'usdt_bep20', name: 'USDT BEP20', network: 'BNB Smart Chain', logo: PAYMENT_LOGOS.bep20 },
                   { id: 'usdt_trc20', name: 'USDT TRC20', network: 'Tron Network', logo: PAYMENT_LOGOS.trc20 },
-                  { id: 'usdt_erc20', name: 'USDT ERC20', network: 'Ethereum', logo: PAYMENT_LOGOS.erc20 }
+                  { id: 'usdt_erc20', name: 'USDT ERC20', network: 'Ethereum', logo: PAYMENT_LOGOS.erc20 },
+                  { id: 'btc', name: 'Bitcoin', network: 'BTC Network', logo: PAYMENT_LOGOS.btc }
                 ].map((method) => (
                   <button
                     key={method.id}

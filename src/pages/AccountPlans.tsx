@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PLANS } from '../data/config';
+import { PLANS, Plan } from '../data/config';
 import PlanCard from '../components/PlanCard';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Zap } from 'lucide-react';
@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from 'motion/react';
 const AccountPlans = () => {
   const navigate = useNavigate();
   const [activeModel, setActiveModel] = useState<'challenge' | 'instant'>('challenge');
+
+  const challengePlans = PLANS.filter(p => p.type === 'challenge');
+  const instantPlans = PLANS.filter(p => p.type === 'instant');
 
   const handlePlanSelect = (plan: Plan) => {
     const selection = {

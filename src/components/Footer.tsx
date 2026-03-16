@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Shield, Info, HelpCircle, FileText } from 'lucide-react';
+import { Mail, Shield, Info, HelpCircle, FileText, Lock, CheckCircle } from 'lucide-react';
 import { SUPPORT_EMAIL } from '../data/config';
 
 const Footer = () => {
@@ -51,6 +51,21 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/5 pt-6">
+          <div className="flex flex-wrap justify-center gap-6 mb-8">
+            <div className="flex items-center space-x-2 text-gray-400">
+              <Lock size={14} className="text-emerald-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">SSL Secure Checkout</span>
+            </div>
+            <div className="flex items-center space-x-2 text-gray-400">
+              <CheckCircle size={14} className="text-emerald-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Verified Merchant</span>
+            </div>
+            <div className="flex items-center space-x-2 text-gray-400">
+              <Shield size={14} className="text-emerald-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Fraud Protection</span>
+            </div>
+          </div>
+
           <div className="bg-zinc-900/50 rounded-lg p-4 mb-6 border border-white/5">
             <p className="text-[10px] text-gray-500 leading-relaxed text-center">
               <span className="text-gray-300 font-semibold">DISCLAIMER:</span> QXT Funded is an independent service provider. 

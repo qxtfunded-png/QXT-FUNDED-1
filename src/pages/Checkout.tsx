@@ -14,7 +14,9 @@ import {
   Clock, 
   Upload,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Lock,
+  ShieldCheck
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { PLANS, WALLETS, BROKERS, PAYMENT_LOGOS, Plan } from '../data/config';
@@ -507,6 +509,39 @@ const Checkout = () => {
           )}
         </motion.div>
       </AnimatePresence>
+
+      {/* Trust Badges */}
+      <div className="mt-16 pt-8 border-t border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex items-center space-x-4 p-4 bg-zinc-900/30 rounded-2xl border border-white/5">
+            <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+              <Lock size={20} />
+            </div>
+            <div>
+              <h4 className="text-white text-xs font-bold uppercase tracking-wider">Secure SSL Encryption</h4>
+              <p className="text-gray-500 text-[10px]">Your data is protected by 256-bit encryption</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4 p-4 bg-zinc-900/30 rounded-2xl border border-white/5">
+            <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+              <ShieldCheck size={20} />
+            </div>
+            <div>
+              <h4 className="text-white text-xs font-bold uppercase tracking-wider">Verified Payments</h4>
+              <p className="text-gray-500 text-[10px]">All transactions are verified and secure</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4 p-4 bg-zinc-900/30 rounded-2xl border border-white/5">
+            <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+              <CheckCircle2 size={20} />
+            </div>
+            <div>
+              <h4 className="text-white text-xs font-bold uppercase tracking-wider">Instant Activation</h4>
+              <p className="text-gray-500 text-[10px]">Accounts activated within 1 hour of verification</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

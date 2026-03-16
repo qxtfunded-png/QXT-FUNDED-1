@@ -5,7 +5,7 @@ import { ArrowRight, Shield, Zap, TrendingUp, Globe, CreditCard, Headphones, Che
 import { useLanguage } from '../context/LanguageContext';
 import PlanCard from '../components/PlanCard';
 import AccordionItem from '../components/AccordionItem';
-import { PLANS } from '../data/config';
+import { PLANS, Plan } from '../data/config';
 import { FAQ_DATA } from '../data/faq';
 
 const Home = () => {

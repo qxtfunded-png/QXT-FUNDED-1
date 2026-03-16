@@ -25,7 +25,14 @@ import PlanCard from '../components/PlanCard';
 const Checkout = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() => {
+    const saved = localStorage.getItem('checkout_step');
+    return saved ? parseInt(saved, 10) : 1;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('checkout_step', step.toString());
+  }, [step]);
   const [selection, setSelection] = useState<{
     type: 'challenge' | 'instant' | null;
     plan: Plan | null;
@@ -33,14 +40,30 @@ const Checkout = () => {
     details: { name: string; email: string; country: string; address: string; notes: string };
     paymentMethod: 'usdt_bep20' | 'usdt_trc20' | 'usdt_erc20' | 'btc' | null;
     paymentProof: File | null;
-  }>({
-    type: null,
-    plan: null,
-    broker: null,
-    details: { name: user?.name || '', email: user?.email || '', country: '', address: '', notes: '' },
-    paymentMethod: null,
-    paymentProof: null
+  }>(() => {
+    const saved = localStorage.getItem('checkout_selection');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        return { ...parsed, paymentProof: null }; // Files can't be saved in localStorage
+      } catch (e) {
+        console.error('Failed to parse saved selection', e);
+      }
+    }
+    return {
+      type: null,
+      plan: null,
+      broker: null,
+      details: { name: user?.name || '', email: user?.email || '', country: '', address: '', notes: '' },
+      paymentMethod: null,
+      paymentProof: null
+    };
   });
+
+  useEffect(() => {
+    const { paymentProof, ...rest } = selection;
+    localStorage.setItem('checkout_selection', JSON.stringify(rest));
+  }, [selection]);
 
   const [timer, setTimer] = useState(300); // 5 minutes
   const [copied, setCopied] = useState(false);

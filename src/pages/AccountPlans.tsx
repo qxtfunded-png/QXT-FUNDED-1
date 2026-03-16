@@ -9,8 +9,18 @@ const AccountPlans = () => {
   const navigate = useNavigate();
   const [activeModel, setActiveModel] = useState<'challenge' | 'instant'>('challenge');
 
-  const challengePlans = PLANS.filter(p => p.type === 'challenge');
-  const instantPlans = PLANS.filter(p => p.type === 'instant');
+  const handlePlanSelect = (plan: Plan) => {
+    const selection = {
+      type: plan.type,
+      plan: plan,
+      broker: null,
+      details: { name: '', email: '', country: '', address: '', notes: '' },
+      paymentMethod: null
+    };
+    localStorage.setItem('checkout_selection', JSON.stringify(selection));
+    localStorage.setItem('checkout_step', '3');
+    navigate('/checkout');
+  };
 
   return (
     <div className="pt-16 sm:pt-24 pb-8 sm:pb-12 px-4 max-w-7xl mx-auto relative">
@@ -56,7 +66,7 @@ const AccountPlans = () => {
             <PlanCard 
               key={plan.id} 
               plan={plan} 
-              onSelect={() => navigate('/checkout')}
+              onSelect={() => handlePlanSelect(plan)}
             />
           ))}
         </motion.div>
@@ -97,7 +107,7 @@ const AccountPlans = () => {
                 <td className="py-4 px-4 text-white text-sm">{plan.payoutRatio}</td>
                 <td className="py-4 px-4">
                   <button 
-                    onClick={() => navigate('/checkout')}
+                    onClick={() => handlePlanSelect(plan)}
                     className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
                   >
                     Select

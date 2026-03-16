@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Shield, Zap, TrendingUp, Globe, CreditCard, Headphones, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
@@ -22,7 +22,21 @@ const Home = () => {
     }, 4000);
   };
 
+  const navigate = useNavigate();
   const [activeModel, setActiveModel] = React.useState<'challenge' | 'instant'>('challenge');
+
+  const handlePlanSelect = (plan: Plan) => {
+    const selection = {
+      type: plan.type,
+      plan: plan,
+      broker: null,
+      details: { name: '', email: '', country: '', address: '', notes: '' },
+      paymentMethod: null
+    };
+    localStorage.setItem('checkout_selection', JSON.stringify(selection));
+    localStorage.setItem('checkout_step', '3'); // Skip to broker selection or similar
+    navigate('/checkout');
+  };
 
   const featuredPlans = PLANS.filter(p => p.type === activeModel && (p.size === 10000 || p.size === 50000));
 
@@ -269,7 +283,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {PLANS.filter(p => p.type === activeModel && (p.size === 10000 || p.size === 20000 || p.size === 50000 || p.size === 100000)).map((plan) => (
-              <PlanCard key={plan.id} plan={plan} />
+              <PlanCard key={plan.id} plan={plan} onSelect={handlePlanSelect} />
             ))}
           </div>
 

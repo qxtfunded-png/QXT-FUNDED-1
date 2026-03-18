@@ -10,20 +10,8 @@ import { FAQ_DATA } from '../data/faq';
 
 const Home = () => {
   const { t } = useLanguage();
-  const [hasAccepted, setHasAccepted] = React.useState(false);
-  const [isVerifying, setIsVerifying] = React.useState(false);
-  const [isVerified, setIsVerified] = React.useState(false);
-
-  const handleVerify = () => {
-    setIsVerifying(true);
-    setTimeout(() => {
-      setIsVerifying(false);
-      setIsVerified(true);
-    }, 4000);
-  };
-
   const navigate = useNavigate();
-  const [activeModel, setActiveModel] = React.useState<'challenge' | 'instant'>('challenge');
+  const [activeModel, setActiveModel] = React.useState<'challenge' | 'instant' | 'instant-elite'>('challenge');
 
   const handlePlanSelect = (plan: Plan) => {
     const selection = {
@@ -51,161 +39,200 @@ const Home = () => {
 
   return (
     <div className="pt-16">
-      {/* Hero Section */}
-      <section className="relative min-h-[50vh] sm:min-h-[70vh] flex items-center pt-6 sm:pt-10 overflow-hidden bg-zinc-950">
-        {/* Background elements */}
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px]" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
+      {/* Hero Section - Split Layout Style */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#050505]">
+        {/* Live Ticker */}
+        <div className="absolute top-0 left-0 w-full bg-zinc-900/50 border-b border-white/5 backdrop-blur-md z-20 py-2 overflow-hidden">
+          <div className="flex whitespace-nowrap animate-marquee">
+            {[
+              { pair: 'EUR/USD', price: '1.0842', change: '+0.12%' },
+              { pair: 'GBP/USD', price: '1.2654', change: '-0.05%' },
+              { pair: 'USD/JPY', price: '149.82', change: '+0.24%' },
+              { pair: 'XAU/USD', price: '2024.15', change: '+0.45%' },
+              { pair: 'BTC/USD', price: '64,245.10', change: '+1.12%' },
+              { pair: 'ETH/USD', price: '3,452.80', change: '+0.85%' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center space-x-4 px-8 border-r border-white/5">
+                <span className="text-white font-black text-[10px] uppercase tracking-widest">{item.pair}</span>
+                <span className="text-zinc-400 font-mono text-[10px]">{item.price}</span>
+                <span className={`text-[10px] font-bold ${item.change.startsWith('+') ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {item.change}
+                </span>
+              </div>
+            ))}
+            {/* Duplicate for seamless loop */}
+            {[
+              { pair: 'EUR/USD', price: '1.0842', change: '+0.12%' },
+              { pair: 'GBP/USD', price: '1.2654', change: '-0.05%' },
+              { pair: 'USD/JPY', price: '149.82', change: '+0.24%' },
+              { pair: 'XAU/USD', price: '2024.15', change: '+0.45%' },
+              { pair: 'BTC/USD', price: '64,245.10', change: '+1.12%' },
+              { pair: 'ETH/USD', price: '3,452.80', change: '+0.85%' },
+            ].map((item, i) => (
+              <div key={`dup-${i}`} className="flex items-center space-x-4 px-8 border-r border-white/5">
+                <span className="text-white font-black text-[10px] uppercase tracking-widest">{item.pair}</span>
+                <span className="text-zinc-400 font-mono text-[10px]">{item.price}</span>
+                <span className={`text-[10px] font-bold ${item.change.startsWith('+') ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {item.change}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+        {/* Background Elements */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-left"
             >
-              <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full mb-4 sm:mb-6">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span className="text-emerald-400 text-[8px] sm:text-[10px] font-black uppercase tracking-widest">Active Funding</span>
+              <div className="inline-flex items-center space-x-3 bg-emerald-500/5 border border-emerald-500/10 px-4 py-2 rounded-full mb-8">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="w-6 h-6 rounded-full border-2 border-[#050505] bg-zinc-800 overflow-hidden">
+                      <img src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="Trader" className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+                <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em]">Trusted by 15,000+ Traders</span>
               </div>
               
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[0.9] mb-4 sm:mb-6 tracking-tighter">
-                TRADE WITH <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">OUR CAPITAL.</span>
+              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white leading-[0.85] mb-8 tracking-tighter">
+                THE FUTURE OF <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">PROP TRADING.</span>
               </h1>
               
-              <p className="text-gray-400 text-sm sm:text-lg mb-6 sm:mb-8 max-w-xl leading-relaxed font-medium">
-                Get funded up to <span className="text-white font-bold">$100,000</span> and keep up to <span className="text-emerald-400 font-bold">93%</span> of the profits. No hidden rules, just pure trading.
+              <p className="text-zinc-400 text-lg sm:text-xl mb-12 max-w-xl leading-relaxed font-medium">
+                Unlock professional capital up to <span className="text-white font-bold">$1,000,000</span>. 
+                Keep up to <span className="text-emerald-400 font-bold">95%</span> of your profits with zero hidden traps.
               </p>
 
-              <div className="mb-10">
-                {!isVerified ? (
-                  <div className="bg-white/5 border border-white/10 p-6 rounded-3xl max-w-xs backdrop-blur-xl">
-                    <label className="flex items-center space-x-4 cursor-pointer group">
-                      <div className="relative">
-                        <input 
-                          type="checkbox" 
-                          checked={hasAccepted}
-                          onChange={(e) => {
-                            setHasAccepted(e.target.checked);
-                            if (e.target.checked) handleVerify();
-                          }}
-                          className="sr-only"
-                          disabled={isVerifying}
-                        />
-                        <div className={`w-6 h-6 rounded-lg border-2 transition-all flex items-center justify-center ${hasAccepted ? 'bg-emerald-500 border-emerald-500' : 'border-white/20 bg-white/5 group-hover:border-white/40'}`}>
-                          {hasAccepted && !isVerifying && <Check size={14} className="text-white" />}
-                          {isVerifying && (
-                            <motion.div 
-                              animate={{ rotate: 360 }}
-                              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                              className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full"
-                            />
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-[11px] text-white font-black uppercase tracking-widest">
-                          {isVerifying ? 'Verifying Passkey...' : 'Verify Passkey to Trade'}
-                        </span>
-                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">
-                          {isVerifying ? 'Securing Connection...' : 'Click to grant access'}
-                        </span>
-                      </div>
-                    </label>
-                  </div>
-                ) : (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-6"
-                  >
-                    <Link 
-                      to="/plans" 
-                      className="w-full sm:w-auto px-8 py-4 sm:px-10 sm:py-5 bg-emerald-500 text-white rounded-2xl font-black text-xs sm:text-sm uppercase tracking-widest shadow-2xl shadow-emerald-500/40 hover:scale-105 transition-all flex items-center justify-center"
-                    >
-                      Get Funded Now <ArrowRight size={18} className="ml-2" />
-                    </Link>
-                    <Link 
-                      to="/how-it-works" 
-                      className="w-full sm:w-auto px-8 py-4 sm:px-10 sm:py-5 bg-white/5 text-white border border-white/10 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-widest hover:bg-white/10 transition-all text-center"
-                    >
-                      Learn More
-                    </Link>
-                  </motion.div>
-                )}
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <Link 
+                  to="/plans" 
+                  className="w-full sm:w-auto px-10 py-5 bg-emerald-500 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)] hover:scale-105 transition-all flex items-center justify-center group"
+                >
+                  Start Trading Now 
+                  <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link 
+                  to="/how-it-works" 
+                  className="w-full sm:w-auto px-10 py-5 bg-white/5 text-white border border-white/10 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all text-center"
+                >
+                  View Models
+                </Link>
               </div>
 
-              <div className="mt-8 sm:mt-12 flex items-center space-x-6 sm:space-x-8 opacity-50">
-                <div className="flex flex-col">
-                  <span className="text-white font-black text-xl sm:text-2xl tracking-tight">$2.4M+</span>
-                  <span className="text-gray-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest">Total Payouts</span>
+              <div className="mt-16 grid grid-cols-3 gap-8 border-t border-white/5 pt-8">
+                <div>
+                  <div className="text-white font-black text-2xl tracking-tight">$2.4M+</div>
+                  <div className="text-zinc-500 text-[9px] font-bold uppercase tracking-widest mt-1">Paid Out</div>
                 </div>
-                <div className="w-px h-8 sm:h-10 bg-white/10" />
+                <div>
+                  <div className="text-white font-black text-2xl tracking-tight">24h</div>
+                  <div className="text-zinc-500 text-[9px] font-bold uppercase tracking-widest mt-1">Avg. Payout</div>
+                </div>
+                <div>
+                  <div className="text-white font-black text-2xl tracking-tight">93%</div>
+                  <div className="text-zinc-500 text-[9px] font-bold uppercase tracking-widest mt-1">Success Rate</div>
+                </div>
+              </div>
+
+              {/* Trustpilot-style Badge */}
+              <div className="mt-12 flex items-center space-x-3 bg-zinc-900/50 border border-white/5 p-3 rounded-2xl w-fit">
+                <div className="flex space-x-1">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div key={i} className="w-4 h-4 bg-emerald-500 flex items-center justify-center rounded-sm">
+                      <Check size={10} className="text-white" />
+                    </div>
+                  ))}
+                </div>
                 <div className="flex flex-col">
-                  <span className="text-white font-black text-xl sm:text-2xl tracking-tight">15k+</span>
-                  <span className="text-gray-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest">Active Traders</span>
+                  <span className="text-white font-black text-[10px] uppercase tracking-widest">Excellent 4.8/5</span>
+                  <span className="text-zinc-500 text-[8px] font-bold uppercase tracking-widest leading-none mt-0.5">Based on 1,200+ Reviews</span>
                 </div>
               </div>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="relative hidden lg:block"
+              initial={{ opacity: 0, scale: 0.9, rotateY: 20 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              className="relative hidden lg:block perspective-1000"
             >
-              <div className="relative z-10 bg-zinc-900/40 border border-white/5 p-8 rounded-[3rem] backdrop-blur-xl shadow-2xl">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 rounded-full bg-red-500" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                    <div className="w-3 h-3 rounded-full bg-green-500" />
-                  </div>
-                  <div className="text-gray-500 text-[8px] font-bold uppercase tracking-widest">Trading Dashboard</div>
-                </div>
-                <div className="space-y-4">
-                  <div className="h-24 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 flex items-end justify-between">
-                    <div className="space-y-1">
-                      <div className="text-emerald-400 text-[8px] font-bold uppercase tracking-widest">Equity Curve</div>
-                      <div className="text-white font-black text-2xl">+$12,450.00</div>
+              <div className="relative z-10 bg-zinc-900/40 border border-white/5 p-10 rounded-[3rem] backdrop-blur-3xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] transform hover:rotate-y-[-5deg] transition-transform duration-700">
+                <div className="flex items-center justify-between mb-10">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
+                      <TrendingUp className="text-emerald-400" size={24} />
                     </div>
-                    <div className="flex items-end space-x-1 h-full">
-                      {[40, 60, 45, 70, 55, 85, 65, 95].map((h, i) => (
-                        <div key={i} className="w-2 bg-emerald-500/40 rounded-t-sm" style={{ height: `${h}%` }} />
+                    <div>
+                      <div className="text-white font-black text-lg">Live Performance</div>
+                      <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Real-time Data Feed</div>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                    <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest animate-pulse">Live</span>
+                  </div>
+                </div>
+
+                <div className="space-y-8">
+                  <div className="bg-black/40 border border-white/5 rounded-3xl p-6">
+                    <div className="flex items-end justify-between mb-4">
+                      <div className="space-y-1">
+                        <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Account Equity</div>
+                        <div className="text-white font-black text-4xl tracking-tighter">$112,450.00</div>
+                      </div>
+                      <div className="text-emerald-400 font-bold text-sm flex items-center">
+                        <TrendingUp size={14} className="mr-1" /> +12.4%
+                      </div>
+                    </div>
+                    <div className="flex items-end space-x-1.5 h-24">
+                      {[30, 45, 35, 60, 50, 80, 65, 90, 75, 100].map((h, i) => (
+                        <motion.div 
+                          key={i} 
+                          initial={{ height: 0 }}
+                          animate={{ height: `${h}%` }}
+                          transition={{ delay: i * 0.1, duration: 1 }}
+                          className="flex-1 bg-gradient-to-t from-emerald-500/20 to-emerald-500/60 rounded-t-lg" 
+                        />
                       ))}
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/5 border border-white/5 p-4 rounded-2xl">
-                      <div className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Win Rate</div>
-                      <div className="text-white font-black text-xl">74.2%</div>
+
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="bg-white/5 border border-white/5 p-6 rounded-3xl hover:bg-white/10 transition-colors">
+                      <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-2">Profit Factor</div>
+                      <div className="text-white font-black text-2xl tracking-tight">3.12</div>
                     </div>
-                    <div className="bg-white/5 border border-white/5 p-4 rounded-2xl">
-                      <div className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-1">Profit Factor</div>
-                      <div className="text-white font-black text-xl">2.84</div>
+                    <div className="bg-white/5 border border-white/5 p-6 rounded-3xl hover:bg-white/10 transition-colors">
+                      <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-2">Win Rate</div>
+                      <div className="text-white font-black text-2xl tracking-tight">78.5%</div>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Decorative glow */}
-              <div className="absolute -inset-4 bg-emerald-500/20 blur-3xl -z-10 rounded-[4rem]" />
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-[100px] -z-10" />
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[100px] -z-10" />
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Value Props */}
-      <section className="py-8 sm:py-16 bg-zinc-950">
+      <section className="py-24 bg-[#050505] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {valueProps.map((prop, i) => (
               <motion.div
                 key={i}
@@ -213,13 +240,16 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5 hover:border-emerald-500/30 transition-all group"
+                className="p-8 rounded-[2rem] bg-zinc-900/30 border border-white/5 hover:border-emerald-500/30 transition-all group relative overflow-hidden"
               >
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                  {React.cloneElement(prop.icon as React.ReactElement, { size: 80 })}
+                </div>
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative z-10">
                   {prop.icon}
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">{prop.title}</h3>
-                <p className="text-gray-400 text-[10px] sm:text-xs leading-relaxed">{prop.desc}</p>
+                <h3 className="text-xl font-black text-white mb-3 relative z-10 uppercase tracking-tight">{prop.title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed relative z-10 font-medium">{prop.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -227,25 +257,26 @@ const Home = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-8 sm:py-16">
+      <section className="py-24 bg-[#050505]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-xl sm:text-3xl font-bold text-white mb-2 sm:mb-3">How It Works</h2>
-            <p className="text-gray-400 text-xs sm:text-sm">Your journey to becoming a funded trader in 4 simple steps.</p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl sm:text-6xl font-black text-white mb-4 tracking-tighter uppercase">The Path to <span className="text-emerald-400">Funding</span></h2>
+              <p className="text-zinc-500 text-lg font-medium">Your journey to becoming a professional funded trader in four streamlined steps.</p>
+            </div>
+            <div className="hidden md:block h-px flex-1 bg-white/5 mx-12 mb-6" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             {[
-              { step: "01", title: "Choose Account", desc: "Select between Challenge or Instant models based on your strategy." },
-              { step: "02", title: "Broker Preference", desc: "Select your preferred broker (Quotex, Pocket Option, etc) during checkout." },
-              { step: "03", title: "Complete Payment", desc: "Pay securely via Crypto and upload your payment proof for verification." },
-              { step: "04", title: "Gmail Delivery", desc: "Receive your account ID and trading password in your Gmail within 1 hour." },
+              { step: "01", title: "Select Model", desc: "Choose between Challenge, Instant, or Elite models based on your trading style." },
+              { step: "02", title: "Configure Account", desc: "Pick your preferred broker and account size during the secure checkout." },
+              { step: "03", title: "Secure Payment", desc: "Complete your purchase via crypto. Fast, anonymous, and globally accessible." },
+              { step: "04", title: "Instant Delivery", desc: "Receive your credentials via Gmail within 60 minutes and start trading." },
             ].map((item, i) => (
-              <div key={i} className="relative">
-                <div className="text-3xl sm:text-5xl font-black text-white/5 absolute -top-4 -left-1 sm:-top-6 sm:-left-2 z-0">{item.step}</div>
-                <div className="relative z-10">
-                  <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">{item.title}</h3>
-                  <p className="text-gray-400 text-[10px] sm:text-xs">{item.desc}</p>
-                </div>
+              <div key={i} className="group">
+                <div className="text-6xl font-black text-white/5 mb-6 group-hover:text-emerald-500/10 transition-colors">{item.step}</div>
+                <h3 className="text-xl font-black text-white mb-3 uppercase tracking-tight">{item.title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -253,43 +284,61 @@ const Home = () => {
       </section>
 
       {/* Featured Plans */}
-      <section className="py-8 sm:py-16 bg-zinc-950 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_0%,rgba(16,185,129,0.03),transparent_50%)]" />
+      <section className="py-24 bg-[#050505] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_0%,rgba(16,185,129,0.02),transparent_50%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-8 sm:mb-10">
-            <h2 className="text-xl sm:text-4xl font-black text-white mb-2 sm:mb-3 tracking-tight uppercase">POPULAR <span className="text-emerald-400">PLANS</span></h2>
+          <div className="flex flex-col items-center text-center mb-16">
+            <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter uppercase">
+              CHOOSE YOUR <span className="text-emerald-400">FUNDING</span>
+            </h2>
             
-            {/* Side-by-Side Toggle */}
-            <div className="flex items-center justify-center space-x-4 sm:space-x-6 mt-4 sm:mt-6">
-              <button 
-                onClick={() => setActiveModel('challenge')}
-                className={`group flex items-center space-x-2 transition-all ${activeModel === 'challenge' ? 'opacity-100' : 'opacity-20 hover:opacity-40'}`}
-              >
-                <Shield size={14} className={activeModel === 'challenge' ? 'text-blue-400' : 'text-gray-400'} />
-                <span className={`text-base sm:text-xl font-black uppercase tracking-tighter ${activeModel === 'challenge' ? 'text-white' : 'text-gray-500'}`}>Challenge</span>
-              </button>
-              
-              <div className="text-lg sm:text-2xl font-black text-white/5 select-none italic">||</div>
-              
-              <button 
-                onClick={() => setActiveModel('instant')}
-                className={`group flex items-center space-x-2 transition-all ${activeModel === 'instant' ? 'opacity-100' : 'opacity-20 hover:opacity-40'}`}
-              >
-                <span className={`text-base sm:text-xl font-black uppercase tracking-tighter ${activeModel === 'instant' ? 'text-white' : 'text-gray-500'}`}>Instant</span>
-                <Zap size={14} className={activeModel === 'instant' ? 'text-emerald-400' : 'text-gray-400'} />
-              </button>
+            {/* Professional Toggle */}
+            <div className="inline-flex p-1.5 bg-zinc-900/50 border border-white/5 rounded-2xl backdrop-blur-xl">
+              {[
+                { id: 'challenge', label: 'Challenge', icon: <Shield size={14} /> },
+                { id: 'instant', label: 'Instant', icon: <Zap size={14} /> },
+                { id: 'instant-elite', label: 'Elite', icon: <TrendingUp size={14} /> }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveModel(tab.id as any)}
+                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${
+                    activeModel === tab.id 
+                      ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' 
+                      : 'text-zinc-500 hover:text-white'
+                  }`}
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {PLANS.filter(p => p.type === activeModel && (p.size === 10000 || p.size === 20000 || p.size === 50000 || p.size === 100000)).map((plan) => (
-              <PlanCard key={plan.id} plan={plan} onSelect={handlePlanSelect} />
-            ))}
-          </div>
+          <motion.div 
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            <AnimatePresence mode="popLayout">
+              {PLANS.filter(p => p.type === activeModel).map((plan) => (
+                <motion.div
+                  key={plan.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <PlanCard plan={plan} onSelect={handlePlanSelect} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-          <div className="mt-8 text-center">
-            <Link to="/plans" className="text-emerald-400 hover:text-emerald-300 font-bold text-sm flex items-center justify-center group">
-              View All Plans <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+          <div className="mt-16 text-center">
+            <Link to="/plans" className="inline-flex items-center space-x-2 text-zinc-500 hover:text-emerald-400 font-black text-xs uppercase tracking-[0.2em] transition-colors group">
+              <span>Explore All Funding Options</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>

@@ -25,7 +25,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, onSelect, isSelected }) => {
     >
       {/* Decorative background element */}
       <div className={`absolute -right-10 -top-10 w-24 h-24 rounded-full blur-3xl opacity-10 transition-all group-hover:opacity-20 ${
-        plan.type === 'challenge' ? 'bg-blue-500' : 'bg-emerald-500'
+        plan.type === 'challenge' ? 'bg-blue-500' : plan.type === 'instant-elite' ? 'bg-purple-500' : 'bg-emerald-500'
       }`} />
 
       {plan.type === 'challenge' && (
@@ -38,10 +38,17 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, onSelect, isSelected }) => {
           {t.common.instant}
         </div>
       )}
+      {plan.type === 'instant-elite' && (
+        <div className="absolute top-3 right-3 bg-purple-500/10 text-purple-400 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border border-purple-500/20">
+          ELITE
+        </div>
+      )}
 
       <div className="mb-6">
         <div className="text-gray-500 text-[9px] font-bold uppercase tracking-widest mb-1">Account Size</div>
-        <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">${plan.size.toLocaleString()}</h3>
+        <h3 className={`text-2xl sm:text-3xl font-black tracking-tight ${plan.type === 'instant-elite' ? 'text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500' : 'text-white'}`}>
+          ${plan.size.toLocaleString()}
+        </h3>
       </div>
 
       <div className="space-y-3 mb-6">

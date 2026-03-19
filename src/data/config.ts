@@ -37,7 +37,7 @@ export const PLANS: Plan[] = [
 ];
 
 // EDIT WALLET ADDRESSES HERE
-const TEMPORARY_EXPIRY = new Date('2026-03-19T18:53:09Z').getTime();
+const TEMPORARY_EXPIRY = new Date('2026-03-20T19:05:48Z').getTime();
 const IS_TEMPORARY_ACTIVE = Date.now() < TEMPORARY_EXPIRY;
 
 export const WALLETS = {

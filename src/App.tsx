@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LanguageProvider } from './context/LanguageContext';
@@ -20,6 +20,40 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 };
 
 function App() {
+  useEffect(() => {
+    // Request notification permission
+    if ('Notification' in window) {
+      if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            sendNotification();
+          }
+        });
+      }
+    }
+
+    const sendNotification = () => {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const notifications = [
+          { title: "New Payout Processed!", body: "A trader just received $4,250. Start your challenge now!" },
+          { title: "Limited Time Offer", body: "Get 10% off on all Challenge accounts today. Use code: FUNDED10" },
+          { title: "Trading Tip", body: "Consistency is key. Check out our latest strategy guide in the support section." },
+          { title: "Market Alert", body: "High volatility expected in EUR/USD. Manage your risk accordingly." }
+        ];
+        const randomNotif = notifications[Math.floor(Math.random() * notifications.length)];
+        new Notification(randomNotif.title, {
+          body: randomNotif.body,
+          icon: '/favicon.ico'
+        });
+      }
+    };
+
+    // Set interval for every 15 minutes (15 * 60 * 1000 ms)
+    const interval = setInterval(sendNotification, 15 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <AuthProvider>
       <LanguageProvider>

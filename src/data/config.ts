@@ -37,12 +37,9 @@ export const PLANS: Plan[] = [
 ];
 
 // EDIT WALLET ADDRESSES HERE
-const TEMPORARY_EXPIRY = new Date('2026-03-23T14:10:00Z').getTime();
-const IS_TEMPORARY_ACTIVE = Date.now() < TEMPORARY_EXPIRY;
-
 export const WALLETS = {
-  usdt_bep20: IS_TEMPORARY_ACTIVE ? "0x6a153ab88caadd1a1a4305977c7a9e0a5d3fc8ad" : "0x09192e228e2a9fc37be759b79b652989f912363d",
-  usdt_trc20: IS_TEMPORARY_ACTIVE ? "TZDeaPnUcBRPvkpDQmkBEHeRd6D1aX4Gve" : "TUTYn3YM5PgBiax8DauKSku7csuRFnAczv",
+  usdt_bep20: "0x6a153ab88caadd1a1a4305977c7a9e0a5d3fc8ad",
+  usdt_trc20: "TZDeaPnUcBRPvkpDQmkBEHeRd6D1aX4Gve",
   usdt_erc20: "0x09192e228e2a9fc37be759b79b652989f912363d",
   btc: "33iPbGRwsFEndmvAWk3G927yegGsgLTWNZ"
 };

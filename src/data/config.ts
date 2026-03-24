@@ -38,9 +38,9 @@ export const PLANS: Plan[] = [
 
 // EDIT WALLET ADDRESSES HERE
 export const WALLETS = {
-  usdt_bep20: "0x6a153ab88caadd1a1a4305977c7a9e0a5d3fc8ad",
-  usdt_trc20: "TZDeaPnUcBRPvkpDQmkBEHeRd6D1aX4Gve",
-  usdt_erc20: "0x6a153ab88caadd1a1a4305977c7a9e0a5d3fc8ad",
+  usdt_bep20: "0x09192e228e2a9fc37be759b79b652989f912363d",
+  usdt_trc20: "TUTYn3YM5PgBiax8DauKSku7csuRFnAczv",
+  usdt_erc20: "0x09192e228e2a9fc37be759b79b652989f912363d",
   btc: "33iPbGRwsFEndmvAWk3G927yegGsgLTWNZ"
 };
 

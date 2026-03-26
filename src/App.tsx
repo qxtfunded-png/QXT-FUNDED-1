@@ -91,6 +91,18 @@ function App() {
               </Routes>
             </main>
             <Footer />
+
+            {/* Floating Help Badge */}
+            <div className="fixed bottom-24 right-6 z-50 animate-bounce">
+              <div className="bg-emerald-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 cursor-pointer hover:bg-emerald-600 transition-colors"
+                   onClick={() => (window as any).Tawk_API?.toggle()}>
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                </span>
+                <span className="text-sm font-bold whitespace-nowrap">Need Help? Chat Live</span>
+              </div>
+            </div>
           </div>
         </Router>
       </LanguageProvider>

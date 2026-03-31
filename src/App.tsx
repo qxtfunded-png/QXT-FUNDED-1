@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './Login';
 import Dashboard from './Dashboard';
+import Maintenance from './Maintenance';
+
+const MAINTENANCE_MODE = true; // Set to false to enable the website
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -33,6 +36,10 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 function App() {
+  if (MAINTENANCE_MODE) {
+    return <Maintenance />;
+  }
+
   return (
     <AuthProvider>
       <Router>
